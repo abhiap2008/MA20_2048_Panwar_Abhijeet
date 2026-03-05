@@ -1,3 +1,7 @@
+# Abhijeet Singh Panwar
+# MA-20
+# 05.02.2026
+
 color = {
     0: "white",
     2 : "#F59FFA",

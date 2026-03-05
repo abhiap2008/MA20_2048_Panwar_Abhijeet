@@ -1,11 +1,17 @@
+# Abhijeet Singh Panwar
+# MA-20
+# 05.02.2026
+
 from tkinter import *
 import tkinter as tk
 from Dict_color import *
+from Core import *
 
-game = [[0,0,0,0],
-        [0,0,1,0],
-        [0,0,0,0],
-        [1,0,0,0],]
+
+#game = [[0,0,0,0],
+#        [0,0,2,0],
+#        [0,0,0,0],
+#        [2,0,0,0],]
 game = [[2,4,8,16],
         [32,64,128,256],
         [512,1024,2048,4096],
@@ -24,8 +30,8 @@ labels = [[None,None,None,None],
 #----------------------------------------#
 #       DISTANCE BETWEEN LABELS
 #----------------------------------------#
-dx = 5      #Distance Horizonale
-dy = 5     #Distance Vertical
+dx = 10      #Distance Horizonale
+dy = 10     #Distance Vertical
 
 
 #----------------------------------------#
@@ -33,7 +39,7 @@ dy = 5     #Distance Vertical
 #----------------------------------------#
 window = tk.Tk()
 window.title("Panwar")
-window.geometry("500x550")
+window.geometry("600x600")
 window.configure(background="blue")
 
 
@@ -57,7 +63,8 @@ def display():
             else:
                 labels[line][col].config(text="", bg=color[game[line][col]])
 
-
+frm_separtaion=Frame(window)
+frm_separtaion.pack(pady=10, padx=10)
 #----------------------------------------#
 #       CREATING LABEL & POSITIONING
 #----------------------------------------#
@@ -71,7 +78,46 @@ for line in range(len(game)):
         # LABEL POSITIONING IN WINDOWS
         labels[line][col].grid (row=line+1,column=col,padx=dx,pady=dy)
 
-frm_score=Frame(window, bg="grey")
-frm_score.pack(pady=10, padx=10)
-lbl_score=Label(frm_score, text="Meilleur Score", font=("Arial", 20), background="grey")
-lbl_score.pack(side=BOTTOM)
+
+#----------------------------------------#
+#       FRAME MEILLEUR SCORE
+#----------------------------------------#
+frm_meileur_score=Frame(window, bg="blue")
+frm_meileur_score.pack(pady=10, padx=10)
+lbl_score=Label(frm_meileur_score, text="Meilleur Score", font=("Arial", 15), background="grey")
+lbl_score.pack(side="left", padx=50, pady=10)
+
+
+#----------------------------------------#
+#       FRAME SCORE
+#----------------------------------------#
+lbl_score=Label(frm_meileur_score, text="Score", font=("Arial", 15), background="grey")
+lbl_score.pack(side="right", padx=35, pady=10)
+
+#----------------------------------------#
+#       QUIT BUTTTON
+#----------------------------------------#
+
+btn_quitter = Button(frm_meileur_score, text="Quitter", font=("Arial", 15),command=window.quit, background="grey")
+btn_quitter.pack(side="top", padx=35, pady=10)
+
+
+#----------------------------------------#
+#       Detection des touches
+#----------------------------------------#
+from Core import *
+def key_pressed(event):
+    touche = event.keysym
+    if touche=="Down" or touche=="s" or touche=="S":
+        down()
+
+    if touche == "Up" or touche=="w" or touche=="W":
+        up()
+    if touche == "Left" or touche=="a" or touche=="A":
+        left()
+    if touche == "Right" or touche=="d" or touche=="D":
+        right()
+    display()
+
+
+window.bind("<Key>", key_pressed)
