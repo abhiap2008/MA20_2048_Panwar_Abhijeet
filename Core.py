@@ -1,16 +1,25 @@
 #Abhijeet Singh Panwar
 #MA-20
 #05.02.2026
-import Gfx
+# --------- Contient la logique du jeu 2048 --------- #
+# --------- Gère les déplacements, les fusions et les modifications de la grille --------- #
+
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
 from Gfx import *
+import random
 
-game = [[0,2,0,0],
-        [0,2,2,0],
-        [0,2,2,0],
-        [0,0,0,0],]
+game = [[0,0,0,0],
+        [0,0,0,0],
+        [0,0,2,0],
+        [0,2,0,0],]
+# ---------------------------------------- #
+#       PACK4 FUNCTION
+# ---------------------------------------- #
+# ---------- Traite 4 cases d'une ligne ou colonne : déplace les zéros et fusionne les valeurs égales ---------- #
+# ---------- Retourne les nouvelles valeurs après déplacement et fusion ---------- #
+
 def pack4(a,b,c,d):
 # ----------------------------------------#
 #       Passer les 0 à droite
@@ -39,7 +48,7 @@ def pack4(a,b,c,d):
         cpt += 1
 
     print("Les fusions se font en", cpt, "coups")
-    return (a,b,c,d, )
+    return (a,b,c,d,cpt)
 
 
 # ----------------------------------------#
@@ -52,34 +61,83 @@ print(pack4(128,128,128,128))
 print(pack4(4,16,512,128))
 print(pack4(4,4,4,4))
 
-
+# ----------------------------------------#
+#       MOVE DOWN
+# ----------------------------------------#
+# ---------- Cette fonction effectue le déplacement des tuiles vers le bas ---------- #
 def down():
     cpt_total = 0
     for col in range(4):
-        (game[3][col], game[2][col], game[1][col], game[0][col]) = pack4(game[3][col], game[2][col], game[1][col],
-                                                                      game[0][col])
+        (game[3][col], game[2][col], game[1][col], game[0][col], cpt) = \
+            (pack4(game[3][col], game[2][col], game[1][col], game[0][col]))
+    if cpt > 0:
+        apparition()
     print(game)
 
+# ----------------------------------------#
+#       MOVE UP
+# ----------------------------------------#
+# --------- Cette fonction déplace les tuiles vers le haut --------- #
 def up():
     for col in range(4):
-        (game[0][col], game[1][col], game[2][col], game[3][col]) = pack4(game[0][col], game[1][col], game[2][col],
-                                                                         game[3][col])
+        (game[0][col], game[1][col], game[2][col], game[3][col], cpt) = \
+            (pack4(game[0][col], game[1][col], game[2][col], game[3][col]))
+    if cpt > 0:
+        apparition()
     print(game)
-
+# ----------------------------------------#
+#       MOVE LEFT
+# ----------------------------------------#
+# ---------- Cette fonction déplace les tuiles vers la gauche ---------- #
 def left():
     for line in range(4):
-        (game[line][0], game[line][1], game[line][2], game[line][3]) = pack4(game[line][0], game[line][1], game[line][2],
-                                                                         game[line][3])
+        (game[line][0], game[line][1], game[line][2], game[line][3], cpt) = \
+            (pack4(game[line][0], game[line][1], game[line][2], game[line][3]))
+    if cpt > 0:
+        apparition()
     print(game)
-
-
+# ----------------------------------------#
+#       MOVE RIGHT
+# ----------------------------------------#
+# ---------- Cette fonction déplace les tuiles vers la droite ---------- #
 def right():
     for line in range(4):
-        (game[line][3], game[line][2], game[line][1], game[line][0]) = pack4(game[line][3], game[line][2], game[line][1],
-                                                                              game[line][0])
+        (game[line][3], game[line][2], game[line][1], game[line][0], cpt) = \
+            (pack4(game[line][3], game[line][2], game[line][1], game[line][0]))
+    if cpt > 0:
+        apparition()
     print(game)
 
-
-
+# -------------------------------------------------------------------- #
+#       C'est pour afficher une nouvelle tuile dans une case vide
+# -------------------------------------------------------------------- #
+def apparition():
+# ----------------------------------------------------------------------#
+#   Affiche un message pour signaler qu'un nouveau bloc va apparaître
+# ----------------------------------------------------------------------#
+    print("nouvelle block")
+# ------------------------------------------------------#
+#   Choisit aléatoirement un nombre entre 1 et 10
+# ------------------------------------------------------#
+    random_nb = random.randint(1, 10)
+# ---------------------------------------------------------------------------#
+# Définit la valeur du bloc : 2 avec 80% de chance, 4 avec 20% de chance
+# ---------------------------------------------------------------------------#
+    if random_nb <= 8:
+        numéro = 2
+    else:
+        numéro = 4
+# ----------------------------------------------------------------------#
+#   Boucle jusqu'à trouver une case vide pour placer le nouveau bloc
+# ----------------------------------------------------------------------#
+    while True:
+        row = random.randint(0, 3)
+        col = random.randint(0, 3)
+# ----------------------------------------------------------------------#
+#   Si la case est vide, on place le bloc et on sort de la boucle
+# ----------------------------------------------------------------------#
+        if game[row][col] == 0:
+            game[row][col] = numéro
+            break
 
 

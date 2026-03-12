@@ -1,7 +1,7 @@
 # Abhijeet Singh Panwar
 # MA-20
 # 05.02.2026
-
+# ---------- Gère les couleur pour chaque tuile en fonction des chiffres --------- #
 color = {
     0: "white",
     2 : "#F59FFA",

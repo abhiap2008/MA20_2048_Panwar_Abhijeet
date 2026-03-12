@@ -1,8 +1,9 @@
 # Abhijeet Singh Panwar
 # MA-20
 # 05.02.2026
+# ----------- Gère l'interface graphique du jeu 2048 avec Tkinter ----------- #
+# ----------- Affiche la grille, les couleurs et détecte les touches du clavier ----------- #
 
-from tkinter import *
 import tkinter as tk
 from Dict_color import *
 from Core import *
@@ -16,8 +17,6 @@ game = [[2,4,8,16],
         [32,64,128,256],
         [512,1024,2048,4096],
         [8192,0,0,0],]
-
-
 #----------------------------------------#
 #       CREATE DIMENSION
 #----------------------------------------#
@@ -55,6 +54,9 @@ lbl_title.pack()
 #----------------------------------------#
 #      DISPLAY OF GRID
 #----------------------------------------#
+# ---------- Met à jour l'affichage de la grille 2048 ---------- #
+# ---------- Affiche les nombres et applique la couleur correspondante ---------- #
+
 def display():
     for line in range(len(game)):
         for col in range(len(game[0])):
@@ -102,19 +104,30 @@ btn_quitter = Button(frm_meileur_score, text="Quitter", font=("Arial", 15),comma
 btn_quitter.pack(side="top", padx=35, pady=10)
 
 
-#----------------------------------------#
-#       Detection des touches
-#----------------------------------------#
+# ------------------------------------------------------------------------------#
+#       Fonction appellé à chaque fois le touche du clavier est pressé
+# ------------------------------------------------------------------------------#
 from Core import *
 def key_pressed(event):
     touche = event.keysym
+# -------------------------------------------------------------------- #
+#      Touche S/s ou  la flèche bas : déplace les tuiles vers le bas
+# -------------------------------------------------------------------- #
     if touche=="Down" or touche=="s" or touche=="S":
         down()
-
+# -------------------------------------------------------------------------- #
+#      Touche W/w ou  la flèche en haut : déplace les tuiles vers le haut
+# -------------------------------------------------------------------------- #
     if touche == "Up" or touche=="w" or touche=="W":
         up()
+# -------------------------------------------------------------------------- #
+#      Touche A/a ou  la flèche gauche : déplace les tuiles vers la gauche
+# -------------------------------------------------------------------------- #
     if touche == "Left" or touche=="a" or touche=="A":
         left()
+# ---------------------------------------------------------------------------- #
+#      Touche D/d ou  la flèche droite : déplace les tuiles vers la droite
+# ---------------------------------------------------------------------------- #
     if touche == "Right" or touche=="d" or touche=="D":
         right()
     display()
