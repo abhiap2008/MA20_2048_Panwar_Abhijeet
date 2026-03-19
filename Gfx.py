@@ -65,6 +65,7 @@ def display():
             else:
                 labels[line][col].config(text="", bg=color[game[line][col]])
 
+
 frm_separtaion=Frame(window)
 frm_separtaion.pack(pady=10, padx=10)
 #----------------------------------------#
@@ -131,6 +132,6 @@ def key_pressed(event):
     if touche == "Right" or touche=="d" or touche=="D":
         right()
     display()
-
-
+    test_fini()
+    test_empty_case()
 window.bind("<Key>", key_pressed)

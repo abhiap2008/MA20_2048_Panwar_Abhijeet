@@ -11,9 +11,10 @@ from Gfx import *
 import random
 
 game = [[0,0,0,0],
-        [0,0,0,0],
-        [0,0,2,0],
+        [0,1024,1024,0],
+        [0,1024,1024,0],
         [0,2,0,0],]
+winner = False
 # ---------------------------------------- #
 #       PACK4 FUNCTION
 # ---------------------------------------- #
@@ -140,4 +141,42 @@ def apparition():
             game[row][col] = numéro
             break
 
+# ------------------------------------------------------- #
+#       Test gagné pour vérifer que 2048 est atteint      #
+# ------------------------------------------------------- #
 
+def test_fini():
+    global winner
+    for line in range(4):
+        for col in range(4):
+# ------------------------------------------------------- #
+#       Vérifier qu'il n'y a pas plus grand que 2048      #
+# ------------------------------------------------------- #
+            if game[line][col] == 2048 and winner == False:
+                messagebox.showinfo("Gagné", "Bravo ! Vous avez atteint le but 2048")
+                winner = True
+# --------------------- #
+#       Test perdu      #
+# --------------------- #
+
+def test_empty_case():
+    winner = False
+    for line in range(4):
+        for col in range(4):
+# ------------------------------------------------------- #
+#       Vérifier s'il en reste encore des cases vides     #
+# ------------------------------------------------------- #
+            if game[line][col] == 0:
+                return # pas perdu
+# ----------------------------------------------------------- #
+#       Vérifier s'il en reste encore des fussion possible    #
+# ----------------------------------------------------------- #
+    for line in range(4):       # Vérifie de Gauche à droite
+        for col in range(3):    # Pour chaque ligne
+            if game[line][col] == game[line][col + 1]: # compare la case actuelle avec celle de droite
+                return
+    for col in range(4):        # Vérifie de haut vers bas
+        for line in range(3):   # Vérifie chaque colonne
+            if game[line][col] == game[line + 1 ][col]:     # compare la case actuelle avec celle en dessous
+                return      # pas de fussion possible
+    messagebox.showinfo("Perdu","Dommage vous avez perdu !")
