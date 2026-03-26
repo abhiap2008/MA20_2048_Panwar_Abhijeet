@@ -8,6 +8,9 @@ import tkinter as tk
 from Dict_color import *
 from Core import *
 
+import time
+start_time = time.time()
+
 
 #game = [[0,0,0,0],
 #        [0,0,2,0],
@@ -64,10 +67,12 @@ def display():
                 labels[line][col].config(text=game[line][col], bg=color[game[line][col]])
             else:
                 labels[line][col].config(text="", bg=color[game[line][col]])
+    from Core import score
+    lbl_score_value.config(text=str(score))
 
 
-frm_separtaion=Frame(window)
-frm_separtaion.pack(pady=10, padx=10)
+frm_separation=Frame(window)
+frm_separation.pack(pady=10, padx=10)
 #----------------------------------------#
 #       CREATING LABEL & POSITIONING
 #----------------------------------------#
@@ -85,26 +90,54 @@ for line in range(len(game)):
 #----------------------------------------#
 #       FRAME MEILLEUR SCORE
 #----------------------------------------#
-frm_meileur_score=Frame(window, bg="blue")
+frm_meileur_score = Frame(window, bg="blue")
 frm_meileur_score.pack(pady=10, padx=10)
-lbl_score=Label(frm_meileur_score, text="Meilleur Score", font=("Arial", 15), background="grey")
-lbl_score.pack(side="left", padx=50, pady=10)
 
-
-#----------------------------------------#
-#       FRAME SCORE
-#----------------------------------------#
-lbl_score=Label(frm_meileur_score, text="Score", font=("Arial", 15), background="grey")
-lbl_score.pack(side="right", padx=35, pady=10)
+lbl_best = Label(frm_meileur_score, text="Meilleur Score", font=("Arial", 15), bg="grey")
+lbl_best.pack(side="left", padx=50)
 
 #----------------------------------------#
 #       QUIT BUTTTON
 #----------------------------------------#
 
-btn_quitter = Button(frm_meileur_score, text="Quitter", font=("Arial", 15),command=window.quit, background="grey")
-btn_quitter.pack(side="top", padx=35, pady=10)
+btn_quitter = Button(frm_meileur_score, text="Quitter", font=("Arial", 15), command=window.quit, bg="grey")
+btn_quitter.pack(side="left", padx=50)
 
+#----------------------------------------#
+#           Chronomètre
+#----------------------------------------#
+def update_timer():
+    elapsed = int(time.time() - start_time)
+    lbl_timer.config(text=str(elapsed) + "s")
+    window.after(1000, update_timer)
+#----------------------------------------#
+#       FRAME SCORE
+#----------------------------------------#
+frm_score = Frame(frm_meileur_score, bg="blue")
+frm_score.pack(side="left", padx=40)
 
+lbl_score_text = Label(frm_score, text="Score", font=("Arial", 15), bg="grey")
+lbl_score_text.pack()
+
+lbl_score_value = Label(frm_score, text="0", font=("Arial", 15), bg="grey")
+lbl_score_value.pack(pady=10)
+
+lbl_timer = Label(frm_meileur_score, text="0s", font=("Arial", 15), bg="grey")
+lbl_timer.pack(side="left", padx=20)
+
+def restart():
+    import Core
+    global start_time
+
+    start_time = time.time()  # reset timer
+    Core.score = 0            # reset score
+
+    for i in range(4):
+        for j in range(4):
+            Core.game[i][j] = 0
+
+btn_restart = Button(frm_meileur_score, text="Restart", command=restart, bg="blue")
+btn_restart.pack(side="left", padx=20)
 # ------------------------------------------------------------------------------#
 #       Fonction appellé à chaque fois le touche du clavier est pressé
 # ------------------------------------------------------------------------------#
@@ -134,4 +167,5 @@ def key_pressed(event):
     display()
     test_fini()
     test_empty_case()
+    update_timer()
 window.bind("<Key>", key_pressed)
