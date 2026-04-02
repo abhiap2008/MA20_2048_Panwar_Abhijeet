@@ -104,13 +104,6 @@ btn_quitter = Button(frm_meileur_score, text="Quitter", font=("Arial", 15), comm
 btn_quitter.pack(side="left", padx=50)
 
 #----------------------------------------#
-#           Chronomètre
-#----------------------------------------#
-def update_timer():
-    elapsed = int(time.time() - start_time)
-    lbl_timer.config(text=str(elapsed) + "s")
-    window.after(1000, update_timer)
-#----------------------------------------#
 #       FRAME SCORE
 #----------------------------------------#
 frm_score = Frame(frm_meileur_score, bg="blue")
@@ -125,19 +118,6 @@ lbl_score_value.pack(pady=10)
 lbl_timer = Label(frm_meileur_score, text="0s", font=("Arial", 15), bg="grey")
 lbl_timer.pack(side="left", padx=20)
 
-def restart():
-    import Core
-    global start_time
-
-    start_time = time.time()  # reset timer
-    Core.score = 0            # reset score
-
-    for i in range(4):
-        for j in range(4):
-            Core.game[i][j] = 0
-
-btn_restart = Button(frm_meileur_score, text="Restart", command=restart, bg="blue")
-btn_restart.pack(side="left", padx=20)
 # ------------------------------------------------------------------------------#
 #       Fonction appellé à chaque fois le touche du clavier est pressé
 # ------------------------------------------------------------------------------#
@@ -167,5 +147,4 @@ def key_pressed(event):
     display()
     test_fini()
     test_empty_case()
-    update_timer()
 window.bind("<Key>", key_pressed)
