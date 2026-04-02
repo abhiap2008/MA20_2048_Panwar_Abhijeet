@@ -118,9 +118,9 @@ lbl_score_value.pack(pady=10)
 lbl_timer = Label(frm_meileur_score, text="0s", font=("Arial", 15), bg="grey")
 lbl_timer.pack(side="left", padx=20)
 
-# ------------------------------------------------------------------------------#
+# -------------------------------------------------------------------------------#
 #       Fonction appellé à chaque fois le touche du clavier est pressé
-# ------------------------------------------------------------------------------#
+# -------------------------------------------------------------------------------#
 from Core import *
 def key_pressed(event):
     touche = event.keysym
